@@ -59,6 +59,10 @@ export const findAbiEventByName = (events: AbiEvent[], name: string): O.Option<A
   A.findFirst((abiEvent) => abiEvent.name === name),
 );
 
+export const findAbiErrorByName = (events: AbiError[], name: string): O.Option<AbiError> => pipe(
+  events,
+  A.findFirst((abiError) => abiError.name === name),
+);
 
 export const createStructuredAbi = (abi: Abi): E.Either<ZodError, AbiStructured> => {
   const res = AbiStructured.safeParse({

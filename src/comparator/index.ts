@@ -4,13 +4,13 @@ import * as E from 'fp-ts/Either';
 import * as A from 'fp-ts/Array';
 import { pipe } from 'fp-ts/function';
 import {
-  functionHasSameOutputs,
+  functionHasSameOutputs, hasErrorWithSameName,
   hasEventWithSameName,
   hasFunctionWithSameName,
   hasSameInputs,
   hasSameStateMutability
 } from './constraints';
-import { findAbiEventByName, findAbiFunctionByName } from '../utils/structured';
+import { findAbiErrorByName, findAbiEventByName, findAbiFunctionByName } from '../utils/structured';
 import { CompareError } from './types';
 
 export const compareABIs = (abiA: AbiStructured, abiB: AbiStructured): CompareError[] => {
@@ -19,6 +19,10 @@ export const compareABIs = (abiA: AbiStructured, abiB: AbiStructured): CompareEr
     hasSameStateMutability(abiA.constructor, O.fromNullable(abiB.constructor)),
     hasSameInputs(abiA.constructor, O.fromNullable(abiB.constructor)),
   ];
+
+  abiA.receive ? constraints.push(hasSameStateMutability(abiA.receive, O.fromNullable(abiB.receive))) : null;
+
+  abiA.fallback ? constraints.push(hasSameStateMutability(abiA.fallback, O.fromNullable(abiB.fallback))) : null;
 
   constraints.push(...abiA.functions.map(
     abiAFunction => hasFunctionWithSameName(abiAFunction, findAbiFunctionByName(abiB.functions, abiAFunction.name))
@@ -34,6 +38,10 @@ export const compareABIs = (abiA: AbiStructured, abiB: AbiStructured): CompareEr
 
   constraints.push(...abiA.events.map(
     abiAEvent => hasEventWithSameName(abiAEvent, findAbiEventByName(abiB.events, abiAEvent.name))
+  ));
+
+  constraints.push(...abiA.errors.map(
+    abiAEvent => hasErrorWithSameName(abiAEvent, findAbiErrorByName(abiB.errors, abiAEvent.name))
   ));
 
   const isNotNull = <T>(x: T | null): x is T => {

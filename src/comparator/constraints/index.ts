@@ -6,6 +6,7 @@ import { AbiEvent } from '../../types/abi-event';
 import { AbiConstructor } from '../../types/abi-constructor';
 import { AbiFunction } from '../../types/abi-function';
 import { isSameInputs, isSameOutputs } from './utils';
+import { AbiError } from '../../types/abi-error';
 
 export const hasSameStateMutability =
   (abiItemA: AbiItemWithStateMutability, abiItemB: O.Option<AbiItemWithStateMutability>): E.Either<CompareError, true> =>
@@ -90,5 +91,24 @@ export const hasEventWithSameName = (abiItemA: AbiEvent, abiItemB: O.Option<AbiE
         name: abiItemA.name,
         error: {
           tag: Errors.EventWithNameNotFoundTag,
+        }
+      });
+
+export const hasErrorWithSameName = (abiItemA: AbiError, abiItemB: O.Option<AbiError>): E.Either<CompareError, true> =>
+  O.isNone(abiItemB)
+    ? E.left({
+      type: abiItemA.type,
+      name: abiItemA.name,
+      error: {
+        tag: Errors.ErrorWithNameNotFoundTag,
+      }
+    })
+    : abiItemA.name === abiItemB.value.name
+      ? E.right(true)
+      : E.left({
+        type: abiItemA.type,
+        name: abiItemA.name,
+        error: {
+          tag: Errors.ErrorWithNameNotFoundTag,
         }
       });

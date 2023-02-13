@@ -49,11 +49,13 @@ export const formatError = (compareError: CompareError): FormattedError => {
       formattedError.resV1 = chalk.green('Exists');
       formattedError.resV2 = chalk.red('Removed');
       return formattedError;
+
     case Errors.DifferentStateMutabilityTag:
       formattedError.errType = chalk.gray('<StateMutability>');
       formattedError.resV1 = chalk.green(compareError.error.stateMutabilityA);
       formattedError.resV2 = chalk.red(compareError.error.stateMutabilityB);
       return formattedError;
+
     case Errors.DifferentInputsTag:
       formattedError.errType = chalk.gray('<Inputs>');
       formattedError.resV1 = formatInputs(compareError.error.inputsA).join('\n');
