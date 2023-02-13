@@ -36,6 +36,10 @@ export const compareABIs = (abiA: AbiStructured, abiB: AbiStructured): CompareEr
     abiAFunction => functionHasSameOutputs(abiAFunction, findAbiFunctionByName(abiB.functions, abiAFunction.name))
   ));
 
+  constraints.push(...abiA.functions.map(
+    abiAFunction => hasSameStateMutability(abiAFunction, findAbiFunctionByName(abiB.functions, abiAFunction.name))
+  ));
+
   constraints.push(...abiA.events.map(
     abiAEvent => hasEventWithSameName(abiAEvent, findAbiEventByName(abiB.events, abiAEvent.name))
   ));

@@ -8,7 +8,7 @@ export const isSameInputs = (inputsA: Inputs, inputsB: Inputs): boolean => {
 
   return inputsA.every((inputA, i) => {
     const inputB = inputsB[i];
-    return inputA.type === inputB.type;
+    return inputA.name === inputB.name && inputA.type === inputB.type && inputA.components === inputB.components;
   });
 }
 
@@ -19,6 +19,6 @@ export const isSameOutputs = (outputsA: Outputs, outputsB: Outputs): boolean => 
 
   return outputsA.every((outputA, i) => {
     const outputB = outputsB[i];
-    return outputA.type === outputB.type;
+    return outputA.name === outputB.name && outputA.type === outputB.type && outputA.components === outputB.components;
   });
 }

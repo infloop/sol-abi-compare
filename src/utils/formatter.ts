@@ -5,11 +5,11 @@ import { Output, Outputs } from '../types/output';
 
 
 const formatInput = (input: Input): string => {
-  return '{ type' + ': ' + chalk.yellow(input.type) + ' name: ' + chalk.magenta(input.name) + ' }';
+  return '{ type' + ': ' + chalk.yellow(input.type) + ' name: ' + (input.name ? chalk.magenta(input.name) : chalk.grey('<none>')) + ' }';
 }
 
 const formatOutput = (output: Output): string => {
-  return '{ type' + ': ' + chalk.yellow(output.type) + ' name: ' + chalk.magenta(output.name) + ' }';
+  return '{ type' + ': ' + chalk.yellow(output.type) + ' name: ' + (output.name ? chalk.magenta(output.name) : chalk.grey('<none>')) + ' }';
 }
 
 const formatInputs = (inputs: Inputs): string[] => inputs.map(formatInput);
@@ -46,8 +46,8 @@ export const formatError = (compareError: CompareError): FormattedError => {
     case Errors.FunctionWithNameNotFoundTag:
     case Errors.ErrorWithNameNotFoundTag:
       formattedError.errType = chalk.gray('<Presence>');
-      formattedError.resV1 = chalk.green('Exists');
-      formattedError.resV2 = chalk.red('Removed');
+      formattedError.resV1 = chalk.green('exists');
+      formattedError.resV2 = chalk.red('not exists');
       return formattedError;
 
     case Errors.DifferentStateMutabilityTag:
