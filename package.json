@@ -1,21 +1,21 @@
 {
-  "name": "solabi",
+  "name": "sol-abi-compare",
   "version": "1.0.0",
-  "description": "Solidity ABI diff tool",
-  "main": "index.js",
+  "description": "Solidity ABI compare tool",
+  "main": "./src/index.ts",
   "scripts": {
     "compare": "ts-node ./src/index.ts compare"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/infloop/solabi.git"
+    "url": "git+https://github.com/infloop/sol-abi-compare.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/infloop/solabi/issues"
+    "url": "https://github.com/infloop/sol-abi-compare/issues"
   },
-  "homepage": "https://github.com/infloop/solabi#readme",
+  "homepage": "https://github.com/infloop/sol-abi-compare#readme",
   "dependencies": {
     "@types/color": "^3.0.3",
     "@types/columnify": "^1.5.1",
