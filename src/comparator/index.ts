@@ -7,8 +7,8 @@ import {
   functionHasSameOutputs, hasErrorWithSameName,
   hasEventWithSameName,
   hasFunctionWithSameName,
-  hasSameInputs,
-  hasSameStateMutability
+  functionHasSameInputs,
+  hasSameStateMutability, eventHasSameInputs, errorHasSameInputs
 } from './constraints';
 import { findAbiErrorByName, findAbiEventByName, findAbiFunctionByName } from '../utils/structured';
 import { CompareError } from './types';
@@ -17,7 +17,7 @@ export const compareABIs = (abiA: AbiStructured, abiB: AbiStructured): CompareEr
 
   const constraints = [
     hasSameStateMutability(abiA.constructor, O.fromNullable(abiB.constructor)),
-    hasSameInputs(abiA.constructor, O.fromNullable(abiB.constructor)),
+    functionHasSameInputs(abiA.constructor, O.fromNullable(abiB.constructor)),
   ];
 
   abiA.receive ? constraints.push(hasSameStateMutability(abiA.receive, O.fromNullable(abiB.receive))) : null;
@@ -29,7 +29,7 @@ export const compareABIs = (abiA: AbiStructured, abiB: AbiStructured): CompareEr
   ));
 
   constraints.push(...abiA.functions.map(
-    abiAFunction => hasSameInputs(abiAFunction, findAbiFunctionByName(abiB.functions, abiAFunction.name))
+    abiAFunction => functionHasSameInputs(abiAFunction, findAbiFunctionByName(abiB.functions, abiAFunction.name))
   ));
 
   constraints.push(...abiA.functions.map(
@@ -44,8 +44,16 @@ export const compareABIs = (abiA: AbiStructured, abiB: AbiStructured): CompareEr
     abiAEvent => hasEventWithSameName(abiAEvent, findAbiEventByName(abiB.events, abiAEvent.name))
   ));
 
+  constraints.push(...abiA.events.map(
+    abiAEvent => eventHasSameInputs(abiAEvent, findAbiEventByName(abiB.events, abiAEvent.name))
+  ));
+
   constraints.push(...abiA.errors.map(
     abiAEvent => hasErrorWithSameName(abiAEvent, findAbiErrorByName(abiB.errors, abiAEvent.name))
+  ));
+
+  constraints.push(...abiA.errors.map(
+    abiAEvent => errorHasSameInputs(abiAEvent, findAbiErrorByName(abiB.errors, abiAEvent.name))
   ));
 
   const isNotNull = <T>(x: T | null): x is T => {

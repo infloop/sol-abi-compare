@@ -24,7 +24,7 @@ export const hasSameStateMutability =
           }
         });
 
-export const hasSameInputs =
+export const functionHasSameInputs =
   (abiItemA: AbiConstructor | AbiFunction, abiItemB: O.Option<AbiConstructor | AbiFunction>): E.Either<CompareError, true> =>
     O.isNone(abiItemB)
       ? E.right(true)
@@ -93,6 +93,38 @@ export const hasEventWithSameName = (abiItemA: AbiEvent, abiItemB: O.Option<AbiE
           tag: Errors.EventWithNameNotFoundTag,
         }
       });
+
+export const errorHasSameInputs =
+  (abiItemA: AbiError, abiItemB: O.Option<AbiError>): E.Either<CompareError, true> =>
+    O.isNone(abiItemB)
+      ? E.right(true)
+      : isSameInputs(abiItemA.inputs ,abiItemB.value.inputs)
+        ? E.right(true)
+        : E.left({
+          type: abiItemA.type,
+          name: abiItemA.name,
+          error: {
+            tag: Errors.DifferentInputsTag,
+            inputsA: abiItemA.inputs,
+            inputsB: abiItemB.value.inputs,
+          }
+        });
+
+export const eventHasSameInputs =
+  (abiItemA: AbiEvent, abiItemB: O.Option<AbiEvent>): E.Either<CompareError, true> =>
+    O.isNone(abiItemB)
+      ? E.right(true)
+      : isSameInputs(abiItemA.inputs ,abiItemB.value.inputs)
+        ? E.right(true)
+        : E.left({
+          type: abiItemA.type,
+          name: abiItemA.name,
+          error: {
+            tag: Errors.DifferentInputsTag,
+            inputsA: abiItemA.inputs,
+            inputsB: abiItemB.value.inputs,
+          }
+        });
 
 export const hasErrorWithSameName = (abiItemA: AbiError, abiItemB: O.Option<AbiError>): E.Either<CompareError, true> =>
   O.isNone(abiItemB)
