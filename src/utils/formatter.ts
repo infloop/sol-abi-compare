@@ -63,7 +63,7 @@ export const formatError = (compareError: CompareError): FormattedError => {
       return formattedError;
 
     case Errors.DifferentOutputsTag:
-      formattedError.errType = chalk.gray('<Inputs>');
+      formattedError.errType = chalk.gray('<Outputs>');
       formattedError.resV1 = formatOutputs(compareError.error.outputsA).join('\n');
       formattedError.resV2 = formatOutputs(compareError.error.outputsB).join('\n');
       return formattedError;
