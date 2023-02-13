@@ -17,6 +17,7 @@ export const hasSameStateMutability =
       : E.left({
           type: abiItemA.type,
           name: isAbiFallback(abiItemA) ? undefined : abiItemA.name,
+          stateMutability: abiItemA.stateMutability,
           error: {
             tag: Errors.DifferentStateMutabilityTag,
             stateMutabilityA: abiItemA.stateMutability,
@@ -33,6 +34,7 @@ export const functionHasSameInputs =
         : E.left({
           type: abiItemA.type,
           name: isAbiFallback(abiItemA) ? undefined : abiItemA.name,
+          stateMutability: abiItemA.stateMutability,
           error: {
             tag: Errors.DifferentInputsTag,
             inputsA: abiItemA.inputs,
@@ -49,6 +51,7 @@ export const functionHasSameOutputs =
         : E.left({
           type: abiItemA.type,
           name: isAbiFallback(abiItemA) ? undefined : abiItemA.name,
+          stateMutability: abiItemA.stateMutability,
           error: {
             tag: Errors.DifferentOutputsTag,
             outputsA: abiItemA.outputs,
@@ -61,6 +64,7 @@ export const hasFunctionWithSameName = (abiItemA: AbiFunction, abiItemB: O.Optio
     ? E.left({
       type: abiItemA.type,
       name: abiItemA.name,
+      stateMutability: abiItemA.stateMutability,
       error: {
         tag: Errors.FunctionWithNameNotFoundTag,
       }
@@ -70,6 +74,7 @@ export const hasFunctionWithSameName = (abiItemA: AbiFunction, abiItemB: O.Optio
       : E.left({
         type: abiItemA.type,
         name: abiItemA.name,
+        stateMutability: abiItemA.stateMutability,
         error: {
           tag: Errors.FunctionWithNameNotFoundTag,
         }

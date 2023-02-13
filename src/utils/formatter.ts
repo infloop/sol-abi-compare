@@ -31,7 +31,7 @@ export type FormattedError = {
 export const formatError = (compareError: CompareError): FormattedError => {
 
   const formattedError: FormattedError = {
-    type: chalk.green(compareError.type),
+    type: chalk.green(compareError.type) + ' ' + (compareError.stateMutability ?  chalk.grey('<' + (compareError.stateMutability) + '>') : ''),
     name: chalk.blue(compareError.name),
     errType: '',
     tagV1: 'V1',

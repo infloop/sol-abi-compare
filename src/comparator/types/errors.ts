@@ -52,6 +52,7 @@ export const DifferentStateMutability = z.object({
 export const CompareError = z.object({
   type: z.string(),
   name: z.string().optional(),
+  stateMutability: z.string().optional(),
   error: z.union([
     FunctionWithNameNotFound,
     EventWithNameNotFound,
