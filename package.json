@@ -4,7 +4,7 @@
   "description": "Solidity ABI diff tool",
   "main": "index.js",
   "scripts": {
-    "diff": "ts-node ./src/index.ts compare"
+    "compare": "ts-node ./src/index.ts compare"
   },
   "repository": {
     "type": "git",

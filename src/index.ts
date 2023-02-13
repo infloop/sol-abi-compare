@@ -12,18 +12,18 @@ import columnify from 'columnify';
 const program = new Command();
 
 program
-    .name('diff')
+    .name('solabi')
     .description('CLI')
     .version('0.8.0');
 
 program.command('compare')
-    .description('Compare')
-    .argument('<string>', 'ABI file path (first version)')
-    .argument('<string>', 'ABI file path (second version)')
-    .action(async (abiPath1: string, abiPath2: string, options: any) => {
+    .description('Compare two versions of JSON ABI files')
+    .argument('<abiV1>', 'ABI V2 file path (current version)')
+    .argument('<abiV2>', 'ABI V2 file path (next version)')
+    .action(async (abiPathV1: string, abiPathV2: string, options: any) => {
 
       const res = await doTask(pipe(
-        loadAbiFiles(abiPath1, abiPath2),
+        loadAbiFiles(abiPathV1, abiPathV2),
         TE.bindW('abiStructuredA', (x) => T.of(createStructuredAbi(x.abiA))),
         TE.bindW('abiStructuredB', (x) => T.of(createStructuredAbi(x.abiB))),
         TE.map(x => ({ abiA: x.abiStructuredA, abiB: x.abiStructuredB })),
